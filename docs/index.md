@@ -1,4 +1,4 @@
-# Support for the Musetoba community
+# Technical support for the Musetoba community
 
 This space will contain shared documentation for [Musetoba](https://www.musetoba.ca/) end users and AMM support staff / developers. 
 
