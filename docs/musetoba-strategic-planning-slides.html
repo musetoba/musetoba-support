@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musetoba Strategic Presentation</title>
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .aspect-video-container {
+      aspect-ratio: 16 / 9;
+      max-height: 90vh;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-200">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // --- ICON COMPONENTS (SVG) ---
+    const Icon = ({ children, size = 32, className = "" }) => (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className}
+      >
+        {children}
+      </svg>
+    );
+
+    const ChevronLeft = (props) => <Icon {...props}><path d="m15 18-6-6 6-6" /></Icon>;
+    const ChevronRight = (props) => <Icon {...props}><path d="m9 18 6-6-6-6" /></Icon>;
+    const ShieldCheck = (props) => <Icon {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" /><path d="m9 12 2 2 4-4" /></Icon>;
+    const Database = (props) => <Icon {...props}><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" /></Icon>;
+    const Users = (props) => <Icon {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M17.31 7a4 4 0 0 0-7.31 0" /></Icon>;
+    const TrendingUp = (props) => <Icon {...props}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></Icon>;
+    const Lock = (props) => <Icon {...props}><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></Icon>;
+    const Globe = (props) => <Icon {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20" /><path d="M2 12h20" /><path d="M12 2a14.5 14.5 0 0 0 0 20" /></Icon>;
+    const LifeBuoy = (props) => <Icon {...props}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /><path d="m4.93 4.93 4.24 4.24" /><path d="m14.83 14.83 4.24 4.24" /><path d="m14.83 4.93-4.24 4.24" /><path d="m4.93 14.83 4.24 4.24" /></Icon>;
+    const FileText = (props) => <Icon {...props}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><line x1="10" y1="9" x2="8" y2="9" /></Icon>;
+    const AlertCircle = (props) => <Icon {...props}><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></Icon>;
+
+    const App = () => {
+      const [currentSlide, setCurrentSlide] = useState(0);
+
+      const slides = [
+        {
+          title: "Musetoba Users Meeting",
+          subtitle: "Strategic Roadmap & Future Sustainability",
+          content: (
+            <div className="flex flex-col items-center justify-center h-full text-center p-6">
+              <div className="p-8 bg-blue-100 rounded-full mb-8">
+                <Database size={100} className="text-blue-600" />
+              </div>
+              <h1 className="text-7xl font-black text-slate-900 mb-6 tracking-tight">Musetoba</h1>
+              <p className="text-2xl text-slate-600 max-w-4xl font-medium leading-relaxed">
+                Developing a sustainable, responsive, and flagship digital heritage program for the Association of Manitoba Museums.
+              </p>
+            </div>
+          ),
+          type: "title"
+        },
+        {
+          title: "Goals of This Meeting",
+          subtitle: "Addressing the Path Forward",
+          content: (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center h-full">
+              <ul className="space-y-6">
+                {[
+                  "Acknowledge and address user concerns regarding stability.",
+                  "Outline a new policy position for Musetoba.",
+                  "Present immediate actions for technical support.",
+                  "Discuss long-term financial sustainability and pricing.",
+                  "Gather feedback on proposed strategies."
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-4 text-xl font-medium text-slate-700">
+                    <div className="mt-1 bg-blue-600 rounded-full p-2 flex-shrink-0"><ChevronRight size={16} className="text-white" /></div>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="bg-slate-50 p-8 rounded-3xl border-2 border-slate-200 shadow-xl">
+                <h4 className="font-bold text-blue-700 mb-4 flex items-center gap-4 text-2xl">
+                  <LifeBuoy size={32} /> Key Priority
+                </h4>
+                <p className="text-slate-700 italic leading-relaxed text-xl font-serif">
+                  "Ensuring Musetoba is permanently available: financially sustainable, supported, and maintained."
+                </p>
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "Main Concerns & Risks",
+          subtitle: "What we've heard from our members",
+          content: (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full content-center">
+              <div className="bg-red-50 p-6 rounded-3xl border-2 border-red-100 shadow-sm flex flex-col justify-center">
+                <h3 className="font-bold text-red-700 mb-2 flex items-center gap-3 text-2xl tracking-tight"><AlertCircle size={28} /> Commitment & Funding</h3>
+                <p className="text-slate-800 text-lg mb-2 leading-snug font-medium">Fear of opaque costs and lack of secure, dedicated funding.</p>
+                <p className="text-slate-700 text-base leading-snug">Need for a permanent guarantee of availability.</p>
+              </div>
+              <div className="bg-orange-50 p-6 rounded-3xl border-2 border-orange-100 shadow-sm flex flex-col justify-center">
+                <h3 className="font-bold text-orange-700 mb-2 flex items-center gap-3 text-2xl tracking-tight"><ShieldCheck size={28} /> Risk Management</h3>
+                <p className="text-slate-800 text-lg mb-2 leading-snug font-medium">Concerns over server stability and disaster recovery.</p>
+                <p className="text-slate-700 text-base leading-snug">Relying on a system that feels "unstable" despite its criticality.</p>
+              </div>
+              <div className="bg-blue-50 p-6 rounded-3xl border-2 border-blue-100 shadow-sm flex flex-col justify-center">
+                <h3 className="font-bold text-blue-700 mb-2 flex items-center gap-3 text-2xl tracking-tight"><Users size={28} /> Technical Support</h3>
+                <p className="text-slate-800 text-lg mb-2 leading-snug font-medium">Need for faster responsiveness to maintenance requests.</p>
+                <p className="text-slate-700 text-base leading-snug">Current triage through Whirl-i-gig needs local oversight.</p>
+              </div>
+              <div className="bg-slate-50 p-6 rounded-3xl border-2 border-slate-200 shadow-sm flex flex-col justify-center">
+                <h3 className="font-bold text-slate-700 mb-2 flex items-center gap-3 text-2xl tracking-tight"><TrendingUp size={28} /> Growth & Onboarding</h3>
+                <p className="text-slate-800 text-lg mb-2 leading-snug font-medium">Onboarding and migrations are currently bottlenecks.</p>
+                <p className="text-slate-700 text-base leading-snug">Training is available, but data migration capacity is missing.</p>
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "Musetoba as Flagship",
+          subtitle: "The Policy Position",
+          content: (
+            <div className="flex flex-col gap-8 justify-center h-full">
+              <p className="text-3xl font-bold text-slate-800 border-l-8 border-blue-500 pl-8 leading-tight">
+                Positioning Musetoba as the core program of the Association of Manitoba Museums (AMM).
+              </p>
+              <div className="grid grid-cols-3 gap-6">
+                {[
+                  { title: "Integration", text: "Link outreach, virtual museums, collection management, and digitization." },
+                  { title: "Standardization", text: "Establish formal protocols for data management and security." },
+                  { title: "Safeguards", text: "Guarantee data portability and platform sustainability in by-laws." }
+                ].map((item, i) => (
+                  <div key={i} className="p-6 bg-white shadow-lg rounded-2xl border border-slate-200">
+                    <h4 className="font-bold text-blue-600 mb-2 text-xl">{item.title}</h4>
+                    <p className="text-base text-slate-600 leading-relaxed">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "Technical Strategy",
+          subtitle: "Securing the Foundation",
+          content: (
+            <div className="grid grid-cols-2 gap-12 items-center h-full">
+              <div className="space-y-6">
+                <h3 className="text-2xl font-black mb-4 text-blue-900 uppercase tracking-wider">Operational Changes</h3>
+                <ul className="space-y-8">
+                  <li className="flex gap-4 items-start">
+                    <span className="text-2xl font-black text-blue-600 opacity-30">01</span>
+                    <span className="text-lg font-semibold text-slate-700">Hiring a dedicated Developer/IT Manager (long-term).</span>
+                  </li>
+                  <li className="flex gap-4 items-start">
+                    <span className="text-2xl font-black text-blue-600 opacity-30">02</span>
+                    <span className="text-lg font-semibold text-slate-700">Implementing GitHub-based issue reporting and triage.</span>
+                  </li>
+                  <li className="flex gap-4 items-start">
+                    <span className="text-2xl font-black text-blue-600 opacity-30">03</span>
+                    <span className="text-lg font-semibold text-slate-700">Server redundancy: primary on OVH cloud with backup nodes.</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl border-4 border-slate-800">
+                <h3 className="text-2xl font-black mb-6 text-blue-400 uppercase tracking-widest">Data Sovereignty</h3>
+                <ul className="space-y-6 text-xl text-slate-300">
+                  <li className="flex items-center gap-4"><ShieldCheck className="text-blue-400" size={24} /> Rule of 3 Backups</li>
+                  <li className="flex items-center gap-4"><Globe className="text-blue-400" size={24} /> Canadian server hosting</li>
+                  <li className="flex items-center gap-4"><TrendingUp className="text-blue-400" size={24} /> Automated 24/7 monitoring</li>
+                  <li className="flex items-center gap-4"><LifeBuoy className="text-blue-400" size={24} /> Uptime commitment</li>
+                </ul>
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "Data Portability",
+          subtitle: "Your Data, Your Control",
+          content: (
+            <div className="space-y-8 h-full flex flex-col justify-center">
+              <p className="text-2xl text-slate-700 font-medium leading-relaxed">We are prioritizing tools that ensure members never feel "locked in."</p>
+              <div className="grid grid-cols-2 gap-8">
+                <div className="bg-white border-2 border-slate-100 p-8 rounded-3xl shadow-md">
+                  <h4 className="font-bold flex items-center gap-4 mb-4 text-2xl"><Lock size={32} className="text-blue-500" /> Full Backups</h4>
+                  <p className="text-lg text-slate-600 leading-relaxed">Downloadable compressed archives including SQL database, images, media, and configurations.</p>
+                </div>
+                <div className="bg-white border-2 border-slate-100 p-8 rounded-3xl shadow-md">
+                  <h4 className="font-bold flex items-center gap-4 mb-4 text-2xl"><Globe size={32} className="text-green-500" /> Interoperability</h4>
+                  <p className="text-lg text-slate-600 leading-relaxed">Support for "RDF mode" exports to allow migration to different application structures.</p>
+                </div>
+              </div>
+              <div className="p-6 bg-yellow-100 border-l-8 border-yellow-400 text-xl italic font-serif text-slate-800">
+                "Adequate for restoring on a different server or simple offline storage."
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "The Long-Term Vision",
+          subtitle: "Beyond the Database",
+          content: (
+            <div className="grid grid-cols-2 gap-10 h-full items-center">
+              <div className="space-y-4">
+                <div className="p-5 bg-blue-100 rounded-2xl flex gap-4 items-center border border-blue-200">
+                  <Globe size={36} className="text-blue-600" />
+                  <span className="text-lg font-black text-blue-900 uppercase">Universal Public Portal</span>
+                </div>
+                <div className="p-5 bg-blue-100 rounded-2xl flex gap-4 items-center border border-blue-200">
+                  <ShieldCheck size={36} className="text-blue-600" />
+                  <span className="text-lg font-black text-blue-900 uppercase">QR Code Exhibits</span>
+                </div>
+                <div className="p-5 bg-blue-100 rounded-2xl flex gap-4 items-center border border-blue-200">
+                  <TrendingUp size={36} className="text-blue-600" />
+                  <span className="text-lg font-black text-blue-900 uppercase">Digital Preservation</span>
+                </div>
+              </div>
+              <div className="bg-slate-100 p-8 rounded-3xl border-2 border-slate-200 h-full flex flex-col justify-center">
+                <h4 className="text-2xl font-black mb-4 text-slate-800 border-b-2 border-slate-300 pb-2">Community & Research</h4>
+                <ul className="text-lg space-y-4 text-slate-700 font-medium">
+                  <li className="flex items-center gap-3 text-blue-600">• <span className="text-slate-700">Oral history preservation</span></li>
+                  <li className="flex items-center gap-3 text-blue-600">• <span className="text-slate-700">Thematic cross-museum exhibits</span></li>
+                  <li className="flex items-center gap-3 text-blue-600">• <span className="text-slate-700">Indigenous engagement projects</span></li>
+                  <li className="flex items-center gap-3 text-blue-600">• <span className="text-slate-700">Standardized metadata for all</span></li>
+                </ul>
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "Sustainability & Pricing",
+          subtitle: "A Balanced Economic Model",
+          content: (
+            <div className="space-y-6 h-full flex flex-col justify-center">
+              <table className="w-full text-left text-xl border-collapse shadow-2xl rounded-2xl overflow-hidden">
+                <thead>
+                  <tr className="bg-slate-800 text-white">
+                    <th className="p-4 border-b border-slate-700">Service</th>
+                    <th className="p-4 border-b border-slate-700">Proposed Rate</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white">
+                  <tr>
+                    <td className="p-4 border-b font-bold text-slate-800">Public Portal Entry</td>
+                    <td className="p-4 border-b text-green-600 font-black">FREE (ALL MEMBERS)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 border-b font-bold text-slate-800">Catalogue Backend</td>
+                    <td className="p-4 border-b text-slate-600 font-bold">$10 - $30 / MONTH</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 border-b font-bold text-slate-800">Onboarding/Support</td>
+                    <td className="p-4 border-b text-slate-600 font-bold text-base uppercase tracking-tight">Subsidized by AMM</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 border-b font-bold text-slate-800">Feature Requests</td>
+                    <td className="p-4 border-b text-slate-600 font-bold text-base uppercase tracking-tight">Grant / Sponsorship</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="text-base text-slate-500 bg-white p-4 rounded-2xl border-2 border-slate-100 italic shadow-sm">
+                Note: Current hosting is approx $15/museum. Tiered rates ensure small museums remain accessible while high-volume users contribute to server scaling.
+              </div>
+            </div>
+          )
+        },
+        {
+          title: "Conclusion & Next Steps",
+          subtitle: "Formalizing Our Commitment",
+          content: (
+            <div className="flex flex-col items-center justify-center text-center space-y-8 h-full">
+              <div className="grid grid-cols-3 gap-8 w-full">
+                <div className="p-8 bg-white shadow-xl rounded-3xl border-2 border-slate-100 hover:border-blue-400 transition-all transform hover:-translate-y-2">
+                  <FileText className="mx-auto mb-4 text-blue-500" size={48} />
+                  <h4 className="font-black text-xl text-slate-800">By-Law Changes</h4>
+                  <p className="text-base text-slate-500 mt-2 font-medium">Formalize IP ownership and contingency plans.</p>
+                </div>
+                <div className="p-8 bg-white shadow-xl rounded-3xl border-2 border-slate-100 hover:border-blue-400 transition-all transform hover:-translate-y-2">
+                  <TrendingUp className="mx-auto mb-4 text-blue-500" size={48} />
+                  <h4 className="font-black text-xl text-slate-800">Grant Apps</h4>
+                  <p className="text-base text-slate-500 mt-2 font-medium">Provincial & Canadian Heritage streams.</p>
+                </div>
+                <div className="p-8 bg-white shadow-xl rounded-3xl border-2 border-slate-100 hover:border-blue-400 transition-all transform hover:-translate-y-2">
+                  <Users className="mx-auto mb-4 text-blue-500" size={48} />
+                  <h4 className="font-black text-xl text-slate-800">Triage System</h4>
+                  <p className="text-base text-slate-500 mt-2 font-medium">Opening the GitHub triage and forums.</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setCurrentSlide(0)}
+                className="mt-4 px-10 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-2xl text-xl font-black uppercase tracking-widest"
+              >
+                Back to Start
+              </button>
+            </div>
+          )
+        }
+      ];
+
+      const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+      const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+      useEffect(() => {
+        const handleKeyDown = (e) => {
+          if (e.key === "ArrowRight") nextSlide();
+          if (e.key === "ArrowLeft") prevSlide();
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+      }, []);
+
+      return (
+        <div className="min-h-screen flex items-center justify-center p-8">
+          <div className="w-full max-w-7xl bg-white shadow-2xl rounded-[3rem] overflow-hidden relative flex flex-col aspect-video-container">
+
+            {/* Header */}
+            <div className="p-10 pb-4 flex justify-between items-start">
+              <div>
+                <h2 className="text-4xl font-black tracking-tight text-slate-900 leading-tight">
+                  {slides[currentSlide].title}
+                </h2>
+                <p className="text-blue-600 font-black tracking-widest text-lg uppercase mt-1">
+                  {slides[currentSlide].subtitle}
+                </p>
+              </div>
+              <div className="text-slate-300 font-black text-3xl">
+                {String(currentSlide + 1).padStart(2, '0')} <span className="text-slate-100">/</span> {String(slides.length).padStart(2, '0')}
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-grow px-12 py-4">
+              {slides[currentSlide].content}
+            </div>
+
+            {/* Navigation */}
+            <div className="p-8 flex justify-between items-center bg-slate-50 border-t border-slate-100">
+              <div className="flex items-center gap-6">
+                <button
+                  onClick={prevSlide}
+                  className="p-3 rounded-full hover:bg-slate-200 transition-colors text-slate-600 focus:outline-none shadow-md bg-white border border-slate-100"
+                >
+                  <ChevronLeft size={28} />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="p-3 rounded-full hover:bg-slate-200 transition-colors text-slate-600 focus:outline-none shadow-md bg-white border border-slate-100"
+                >
+                  <ChevronRight size={28} />
+                </button>
+              </div>
+
+              <div className="flex gap-2">
+                {slides.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${i === currentSlide ? 'w-12 bg-blue-600' : 'w-2.5 bg-slate-300 hover:bg-slate-400'}`}
+                    onClick={() => setCurrentSlide(i)}
+                  />
+                ))}
+              </div>
+
+              <div className="text-lg text-slate-400 font-bold tracking-tighter">
+                AMM &bull; Musetoba 2026
+              </div>
+            </div>
+
+            {/* Background decoration */}
+            <div className="absolute -bottom-48 -left-48 w-[40rem] h-[40rem] bg-blue-100 rounded-full blur-[10rem] opacity-40 -z-10"></div>
+            <div className="absolute -top-48 -right-48 w-[40rem] h-[40rem] bg-slate-100 rounded-full blur-[10rem] opacity-40 -z-10"></div>
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+
+</html>
